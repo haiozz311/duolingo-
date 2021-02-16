@@ -9,6 +9,7 @@ module.exports.getRole = (req, res, next) => {
       return res.status(500).json(err);
     });
 };
+
 module.exports.createRole = (req, res, next) => {
   const { name_Role } = req.body;
   return Role.create({ name_Role })
