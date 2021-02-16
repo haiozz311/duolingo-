@@ -9,7 +9,7 @@ const UserSchema = mongoose.Schema({
   avatarUrl: { type: String },
   level: { type: Number, default: 0 },
   status: { type: String, default: true },
-  maLoaiNguoiDung: { type: String, default: "HV" },
+  maLoaiNguoiDung: { type: mongoose.Schema.Types.ObjectId, ref: "Role", default: "" },
 });
 
 UserSchema.pre("save", function (next) {
