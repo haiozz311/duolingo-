@@ -21,7 +21,8 @@ module.exports.authenticate = (req, res, next) => {
 module.exports.authorization = (userTypeArray) => {
   return (req, res, next) => {
     const user = req.user;
-    if (userTypeArray.indexOf(user.maLoaiNguoiDung) > -1) return next();
+    console.log(userTypeArray.indexOf(user.role));
+    if (userTypeArray.indexOf(user.role) > -1) return next();
     res.status(403).json({ message: "you do not have permission" });
   };
 };

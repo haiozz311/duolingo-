@@ -8,7 +8,7 @@ module.exports.validateAddUser = async (req, res, next) => {
   const matKhau = req.body.matKhau;
   const soDt = req.body.soDt;
   const hoTen = req.body.hoTen;
-  const maLoaiNguoiDung = req.body.maLoaiNguoiDung;
+  const role = req.body.role;
 
   const error = {};
 
@@ -42,10 +42,13 @@ module.exports.validateAddUser = async (req, res, next) => {
   if (!hoTen) {
     error.hoTen = "FullName is require";
   }
-  if (!maLoaiNguoiDung) {
-    error.maLoaiNguoiDung = "maLoaiNguoiDung is require";
-  } else if (maLoaiNguoiDung !== "HV" && maLoaiNguoiDung !== "AD") {
-    error.maLoaiNguoiDung = "maLoaiNguoiDung is invalid";
+  if (!role) {
+    error.role = "role is require";
+  } else if (
+    role !== "602b1a324b9eab3104d7d153" &&
+    role !== "602b1b874b9eab3104d7d154"
+  ) {
+    error.role = "role is invalid";
   }
   if (Object.keys(error).length > 0) {
     return res.status(400).json(error);

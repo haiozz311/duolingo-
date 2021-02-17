@@ -8,8 +8,8 @@ const config = require("../config/index");
 const PAGE_SIZE = 2;
 
 module.exports.createUser = (req, res, next) => {
-  const { taiKhoan, matKhau, email, soDt, hoTen, maLoaiNguoiDung } = req.body;
-  User.create({ taiKhoan, matKhau, email, soDt, hoTen, maLoaiNguoiDung })
+  const { taiKhoan, matKhau, email, soDt, hoTen } = req.body;
+  User.create({ taiKhoan, matKhau, email, soDt, hoTen })
     .then((user) => {
       res.status(200).json(user);
     })
@@ -41,7 +41,7 @@ module.exports.login = (req, res, next) => {
         hoTen: _user.hoTen,
         soDt: _user.soDt,
         email: _user.email,
-        maLoaiNguoiDung: _user.maLoaiNguoiDung,
+        role: _user.role,
       };
       return jwtSign(payload, config.JWT_SECRET_KEY, {
         expiresIn: "1h",
@@ -102,6 +102,7 @@ module.exports.uploadAvater = (req, res, next) => {
 
 module.exports.getUser = (req, res, next) => {
   return User.find()
+    .populate("role")
     .then((users) => {
       return res.status(200).json(users);
     })
@@ -119,6 +120,9 @@ module.exports.paginationUser = (req, res, next) => {
     }
     var soLuongBoQua = (page - 1) * PAGE_SIZE;
     User.find({})
+      .populate({
+        path: "role",
+      })
       .skip(soLuongBoQua)
       .limit(PAGE_SIZE)
       .then((users) => {
@@ -129,6 +133,9 @@ module.exports.paginationUser = (req, res, next) => {
       });
   } else {
     return User.find()
+      .populate({
+        path: "role",
+      })
       .then((users) => {
         return res.status(200).json(users);
       })
@@ -139,7 +146,7 @@ module.exports.paginationUser = (req, res, next) => {
 };
 // can fix
 module.exports.AddUser = (req, res, next) => {
-  const { taiKhoan, matKhau, email, soDt, hoTen, maLoaiNguoiDung } = req.body;
+  const { taiKhoan, matKhau, email, soDt, hoTen, role } = req.body;
   User.find({ taiKhoan });
   return User.create({
     taiKhoan,
@@ -147,7 +154,7 @@ module.exports.AddUser = (req, res, next) => {
     email,
     soDt,
     hoTen,
-    maLoaiNguoiDung,
+    role,
   })
     .then((user) => {
       return res.status(200).json(user);
@@ -214,6 +221,7 @@ module.exports.searchUser = (req, res, next) => {
       });
   } else {
     return User.find()
+
       .then((users) => {
         return res.status(200).json(users);
       })
