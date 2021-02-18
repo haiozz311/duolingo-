@@ -34,44 +34,60 @@ const {
 const { authenticate, authorization } = require("../middleware/auth/index");
 const router = express.Router();
 
-router.get("/user", authenticate, authorization(["AD"]), searchUser);
-router.get("/me", authenticate, authorization(["HV", "AD"]), getMe);
+router.get(
+  "/user",
+  authenticate,
+  authorization(["602b1b874b9eab3104d7d154"]),
+  searchUser
+);
+router.get(
+  "/me",
+  authenticate,
+  authorization(["602b1a324b9eab3104d7d153", "602b1b874b9eab3104d7d154"]),
+  getMe
+);
 router.get("/accountInfor", getAccountInfor);
 router.post("/createUser", validateCreateUser, createUser);
 router.post(
   "/addUser",
   validateAddUser,
   authenticate,
-  authorization(["AD"]),
+  authorization(["602b1b874b9eab3104d7d154"]),
   AddUser
 );
 router.post("/login", validateGetUser, login);
 router.post(
   "/upload",
   authenticate,
-  authorization(["AD"]),
+  authorization(["602b1b874b9eab3104d7d154"]),
   uploadImages("hinhAnh"),
   uploadAvater
 );
 router.get(
   "/paginationUser",
   authenticate,
-  authorization(["HV", "AD"]),
+  authorization(["602b1b874b9eab3104d7d154"]),
   paginationUser
 );
 router.patch(
   "/updatePassword",
   validateChangePassword,
-  authorization(["HV", "AD"]),
+  authenticate,
+  authorization(["602b1a324b9eab3104d7d153", "602b1b874b9eab3104d7d154"]),
   updatePassword
 );
 router.put(
   "/updateUser/:id",
   authenticate,
   validateUpdateUser,
-  authorization(["HV", "AD"]),
+  authorization(["602b1a324b9eab3104d7d153", "602b1b874b9eab3104d7d154"]),
   updateUser
 );
-router.delete("/user/:id", authenticate, authorization(["AD"]), deleteUser);
+router.delete(
+  "/user/:id",
+  authenticate,
+  authorization(["602b1b874b9eab3104d7d154"]),
+  deleteUser
+);
 
 module.exports = router;
