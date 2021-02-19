@@ -1,4 +1,4 @@
-const { Role } = require("../models/Role.modal");
+const { Role } = require("../models/Role.model");
 
 module.exports.getRole = (req, res, next) => {
   return Role.find()
